@@ -1,44 +1,44 @@
 package homework;
 
 public enum Planet {
-    MERCURY (3.303e+23, 2.4397e6),
-    VENUS   (4.869e+24, 6.0518e6),
-    EARTH   (5.976e+24, 6.37814e6),
-    MARS    (6.421e+23, 3.3972e6),
-    JUPITER (1.9e+27,   7.1492e7),
-    SATURN  (5.688e+26, 6.0268e7),
-    URANUS  (8.686e+25, 2.5559e7),
-    NEPTUNE (1.024e+26, 2.4746e7);
+    MERCURY(0.3),
+    VENUS(0.9),
+    MOON(0.1),
+    MARS(0.3),
+    JUPITER(2.5),
+    SATURN(1),
+    URANUS(0.8),
+    NEPTUNE(1.1),
+    PLUTO(0),
+    IO(0.18),
+    EUROPA(0.13),
+    GRANYMEDE(0.14),
+    CALLISTO(0.12),
+    SUN(27),
+    WHITE_DWARF(1300000);
 
-    private final double mass;   // in kilograms
-    private final double radius; // in meters
-    Planet(double mass, double radius) {
-        this.mass = mass;
-        this.radius = radius;
-    }
-    private double mass() {
-        return mass; }
-    private double radius() {
-        return radius; }
+    private final double ratio;
 
-    // universal gravitational constant  (m3 kg-1 s-2)
-    public static final double G = 6.67300E-11;
+    Planet(double ratio) {
+        this.ratio = ratio;
+    }
 
-    double surfaceGravity() {
-        return G * mass / (radius * radius);
+    private double ratio() {
+        return ratio;
     }
-    double surfaceWeight(double otherMass) {
-        return otherMass * surfaceGravity();
+
+    double surfaceWeight(double earthWeight) {
+        return earthWeight * ratio;
     }
+
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.err.println("Usage: java homework.Planet <earth_weight>");
+            System.err.println("Usage: java Planet <earth_weight>");
             System.exit(-1);
         }
         double earthWeight = Double.parseDouble(args[0]);
-        double mass = earthWeight/EARTH.surfaceGravity();
         for (Planet p : Planet.values())
             System.out.printf("Your weight on %s is %f%n",
-                    p, p.surfaceWeight(mass));
+                    p, p.surfaceWeight(earthWeight));
     }
 }
